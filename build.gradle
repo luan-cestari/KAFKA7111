@@ -1,0 +1,79 @@
+apply plugin: "java"
+apply plugin: "maven"
+apply plugin: "application"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'com.commercehub.gradle.plugin.avro'
+apply plugin: 'com.github.sherter.google-java-format'
+
+buildscript {
+    ext {
+        springBootVersion = "2.0.3.RELEASE"
+        depVersion = "0.19.0"
+        jaxbVersion = "2.3.0"
+        springKafkaVersion = "2.1.7.RELEASE"
+        avroPluginVersion = "0.14.1"
+        avroApacheVersion = "1.8.2"
+        kafkaAvroSerializerVersion = "3.2.1"
+        gjfVersion = "0.7.1"
+    }
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("com.commercehub.gradle.plugin:gradle-avro-plugin:${avroPluginVersion}")
+        classpath("gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:${gjfVersion}")
+    }
+}
+
+mainClassName = "com.example.KAFKA7111Application"
+sourceCompatibility = projectJavaVersion
+targetCompatibility = projectJavaVersion
+
+compileJava {
+    options.encoding = projectFileEncoding
+}
+
+compileTestJava {
+    options.encoding = projectFileEncoding
+}
+
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+    compile.exclude group: "org.apache.tomcat"
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven {
+        url "http://packages.confluent.io/maven/"
+    }
+    maven {
+        url "http://packages.confluent.io/"
+    }
+}
+
+dependencies {
+
+    def withoutSlf4j = { exclude group: 'org.slf4j', module: 'slf4j-log4j12' }
+
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-undertow")
+    implementation("org.springframework.boot:spring-boot-starter-hateoas")
+    implementation("javax.xml.bind:jaxb-api:${jaxbVersion}")
+    implementation("org.springframework.kafka:spring-kafka:${springKafkaVersion}")
+    implementation("org.apache.avro:avro:${avroApacheVersion}")
+    implementation("io.confluent:kafka-avro-serializer:${kafkaAvroSerializerVersion}", withoutSlf4j)
+
+}
+springBoot {
+    buildInfo()
+}

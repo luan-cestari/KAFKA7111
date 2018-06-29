@@ -1,0 +1,41 @@
+spring:
+  main:
+    banner-mode: "off"
+mongo:
+  min-connections: 2
+  max-connections: 5
+  connect-timeout-ms: 3000
+  socket-timeout-ms: 3000
+management:
+  info:
+    git:
+      mode: full
+  security:
+    enabled: false
+  endpoints:
+    health:
+      show-details: always
+  metrics:
+    export:
+      simple:
+        enabled: false
+server:
+    compression:
+        enabled: true
+    undertow:
+        accesslog:
+            enabled: false
+            pattern: combined
+kafka:
+  bootstrap-servers: localhost:9092
+  schema-registry-url: http://localhost:8081
+  client-id: KAFKA7111
+  request-timeout-ms: 1000
+  max-block-ms: 1000
+  retries: 2147483647
+  max-in-flight-requests-per-connection: 3
+  key-serializer: org.apache.kafka.common.serialization.LongSerializer
+  value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+  acks: all
+  linger-ms: 300
+  batch-size: 300000

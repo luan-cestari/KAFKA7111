@@ -1,0 +1,15 @@
+{
+   "type":"record",
+   "name":"ExampleEvent",
+   "namespace": "com.example.event.avro.example.creation",
+   "fields":[
+      {
+         "name":"exampleId",
+         "type":"string"
+      },
+      {
+         "name":"owner",
+         "type":"string"
+      }
+   ]
+}
